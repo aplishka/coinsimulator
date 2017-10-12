@@ -1,12 +1,18 @@
 {
   "name": "coinsimulator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simulates buying crypto-currencies over time.",
   "main": "index.js",
-  "author": "John Titus",
+  "author": "Alex Plishka",
   "license": "MIT",
   "dependencies": {
     "commander": "^2.10.0",
+    "cryptowatch-api": "^0.0.2",
+    "currency-converter": "^0.1.12",
     "moment": "^2.18.1"
+  },
+  "repository": {
+	"type": "git",
+	"url": "git://github.com/aplishka/coinsimulator.git"
   }
 }

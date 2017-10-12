@@ -2,6 +2,7 @@
 
 const program = require('commander');
 const moment = require('moment');
+const currency_converter = require("currency-converter")({ CLIENTKEY: "8911a8bd457e48c89ef04108ffd14b6d"});
 
 const data = require('./data/snapshots.json');
 const dateFormat = 'YYYY-MM-DD';
@@ -20,6 +21,21 @@ let startDate = (program.begin) ? moment(program.begin, dateFormat) : moment('20
 let endDate = (program.end) ? moment(program.end, dateFormat) : moment();
 let strategy = (program.strategy) ? require('./strategies/' + program.strategy) : require('./strategies/top50');
 
+function convertToCAD(printPrefix, value){
+	console.log("USD value to convert: $" + value)
+    let convert = currency_converter.convert(value, "USD", "CAD");
+    var printConverted = function () {
+	    convert
+	        .then(function (fulfilled) {
+	            console.log(printPrefix + '$' + fulfilled.amount.toLocaleString() + ' CAD');
+	        })
+	        .catch(function (error) {
+	            console.log(error.message);
+	        });
+	}
+	printConverted();
+}
+
 function showResults(holdings){
 	let spent = 0;
 	let value = 0;
@@ -36,9 +52,10 @@ function showResults(holdings){
 	growth = profit / spent * 100;
 
 	console.log('');
-	console.log('Spent: $' + spent.toLocaleString());
-	console.log('Value: $' + value.toLocaleString());
-	console.log('Profit: $' + profit.toLocaleString());
+	convertToCAD('Spent: ', spent);
+	convertToCAD('Value: ', value);
+	convertToCAD('Profit: ', profit);
+	console.log('');
 	console.log('Growth: ' + growth.toFixed(2) + '%');
 }
 
